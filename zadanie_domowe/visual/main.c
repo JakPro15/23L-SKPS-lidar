@@ -83,6 +83,8 @@ void render_loop(SDL_Renderer* renderer, int listenSocket, const SDL_bool* quit)
 
         if(msg.distance <= MAX_DIST)
             distances[msg.angleIndex] = msg.distance * RADIUS / MAX_DIST_RENDERED;
+        else
+            distances[msg.angleIndex] = -1;
 
         for(unsigned int i = 0; i < ANGLES_COUNT; i++)
         {
