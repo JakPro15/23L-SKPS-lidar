@@ -16,9 +16,9 @@ struct LidarMessage
 
 #define SERVER_IP_ADDRESS "10.0.2.2"
 #define PORT_USED 12543
-#define ANGLES 1024
-#define MIN_DISTANCE 500
-#define MAX_DISTANCE 2000
+#define ANGLES 128
+#define MIN_DISTANCE 20
+#define MAX_DISTANCE 300
 
 
 int sendLidarMessage(struct LidarMessage message)
