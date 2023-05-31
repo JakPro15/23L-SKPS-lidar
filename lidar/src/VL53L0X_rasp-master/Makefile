@@ -31,6 +31,9 @@ LIB_OBJS  = $(LIB_SRCS:%.c=$(OBJ_DIR)/%.o)
 EXAMPLES_SRC = $(wildcard examples/*)
 EXAMPLES_BIN = $(EXAMPLES_SRC:examples/%.c=$(OUTPUT_DIR)/%)
 
+LIDAR_SRC = $(wildcard lidar/*)
+LIDAR_BIN = $(OUTPUT_DIR)/lidar
+
 
 .PHONY: all
 all: ${TARGET_LIB}
@@ -47,7 +50,16 @@ $(EXAMPLES_BIN): bin/%:examples/%.c
 	mkdir -p $(dir $@)
 	$(CC) -L$(OUTPUT_DIR) $^ -lVL53L0X_Rasp  $(INCLUDES) -o $@
 
+$(LIDAR_BIN): $(LIDAR_SRC)
+	mkdir -p $(dir $@)
+	$(CC) -c -L$(OUTPUT_DIR) lidar/main.c -lVL53L0X_Rasp $(INCLUDES) -o lidar/main.o
+	$(CC) -c -L$(OUTPUT_DIR) lidar/servo.c -lVL53L0X_Rasp $(INCLUDES) -o lidar/servo.o
+	$(CC) -c -L$(OUTPUT_DIR) lidar/network.c -lVL53L0X_Rasp $(INCLUDES) -o lidar/network.o
+	$(CC) -L$(OUTPUT_DIR) lidar/main.o lidar/servo.o lidar/network.o -lVL53L0X_Rasp  $(INCLUDES) -o $@
+
 examples:${OUTPUT_DIR} ${TARGET_LIB} $(EXAMPLES_BIN)
+
+lidar:${OUTPUT_DIR} ${TARGET_LIB} $(LIDAR_BIN)
 
 .PHONY: clean
 clean:
